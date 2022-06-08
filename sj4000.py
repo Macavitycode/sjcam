@@ -93,7 +93,7 @@ class Camera:
         """
 
         for conf in self.CONFIG.items()[1]:
-            if conf[0].upper()  == config.upper():
+            if conf[0].upper() == config.upper():
                 return conf
         return None
 
@@ -157,7 +157,7 @@ class Camera:
             except Exception as exception:
                 print("[WARN]: Exception occured, ", exception)
                 continue
-            if entry  == filename:
+            if entry == filename:
                 return cells[cell+1].string.strip(), cells[cell+2].string.strip().split(' ')[0], cells[cell+2].string.strip().split(' ')[1]
         return None, None, None
 
@@ -182,7 +182,7 @@ class Camera:
         """
 
         resp = requests.get('http://' + self.ip + ':8192/', stream =True)
-        if not resp.raw.readline().strip()  == "--arflebarfle":
+        if not resp.raw.readline().strip() == "--arflebarfle":
             return False, 'Preview image not found!'
         size = 0
         # 4 lines of header including blank
@@ -206,7 +206,7 @@ class Camera:
         except Exception as exception:
             print("[WARN]: Exception occured, ", exception)
             return 'HTTP socket CLOSED'
-        if resp.status_code  == 200:
+        if resp.status_code == 200:
             return 'HTTP socket OPEN'
         return str('HTTP socket open but returned: ', resp.status_code)
 
@@ -254,7 +254,7 @@ class Camera:
             # sj4000 XML is not properly nested, so we need to kludge it
             print()
             for branch in tree:
-                if branch.tag  == 'Status':
+                if branch.tag == 'Status':
                     try:
                         print(self.CONFIG[current][int(branch.text) + 1])
                     except Exception as exception:
@@ -303,7 +303,7 @@ class Camera:
                         if entry.find('del') > 0:
                             continue
                         fsize, fdate, ftime = self.get_file_details(cells, entry)
-                        if find  == entry:
+                        if find == entry:
                             return True, fsize
                         if not quiet:
                             print('\t', entry ,'\t', fsize, '\t', fdate, '\t', ftime)
@@ -313,7 +313,7 @@ class Camera:
             ret, sd_status = self.get_disk_space()
             if not ret:
                 return ret, sd_status
-            if sd_status  == 0:
+            if sd_status == 0:
                 print('None!')
             else:
                 print(self.human_readable(sd_status))
@@ -343,7 +343,7 @@ class Camera:
             print("[ERROR]: Exception occured, ", exception)
             return False, 'Timeout!'
 
-        if resp.status_code  == 200:
+        if resp.status_code == 200:
             return True, resp
 
         return False, resp
@@ -359,7 +359,7 @@ class Camera:
         found = False
         num = 0
         for num, item in enumerate(self.CONFIG[config]):
-            if item.upper()  == val.upper():
+            if item.upper() == val.upper():
                 found = True
                 num -= 1
                 break
@@ -379,22 +379,22 @@ class Camera:
         Function to set mode
         """
 
-        if mode  == 'PHOTO':
+        if mode == 'PHOTO':
             ret, info = self.send_command('MODE_PHOTO_MOVIE', param = self.MODE_PHOTO)
             if not ret:
                 return ret, info
             switch = self.MODE_PHOTO
-        elif mode  == 'TPHOTO':
+        elif mode == 'TPHOTO':
             ret, info = self.send_command('MODE_PHOTO_MOVIE', param = self.MODE_TPHOTO)
             if not ret:
                 return ret, info
             switch = self.MODE_TPHOTO
-        elif mode  == 'MOVIE':
+        elif mode == 'MOVIE':
             ret, info = self.send_command('MODE_PHOTO_MOVIE', param = self.MODE_MOVIE)
             if not ret:
                 return ret, info
             switch = self.MODE_MOVIE
-        elif mode  == 'TMOVIE':
+        elif mode == 'TMOVIE':
             ret, info = self.send_command('MODE_PHOTO_MOVIE', param = self.MODE_TMOVIE)
             if not ret:
                 return ret, info
@@ -405,7 +405,7 @@ class Camera:
         while 42:
             stat, mode = self.get_mode()
             if stat:
-                if mode  == switch:
+                if mode == switch:
                     return True, None
             else:
                 return False, mode
@@ -431,10 +431,9 @@ class Camera:
 
         return self.send_command('WIFI_PW', str_param = pwparam)
 
-    # take a picture, optionally store it, and return the DCIM filename
     def snap(self, path):
         """
-        Function to take a picture
+        Function to take a picture, optionally store it, and return the DCIM filename
         """
 
         ret, info = self.send_command('SNAP')
