@@ -325,14 +325,14 @@ class Camera:
         """
 
         try:
-            full_command = 'http://' + self.ip + '/?custom =1&cmd =' + self.COMMANDS[command]
+            full_command = 'http://' + self.ip + '/?custom =1&cmd=' + self.COMMANDS[command]
         except Exception as exception:
             print("[WARN]: Exception occured, ", exception)
-            full_command = 'http://' + self.ip + '/?custom =1&cmd =' + command
+            full_command = 'http://' + self.ip + '/?custom=1&cmd=' + command
         if param:
-            full_command += '&par =' + param
+            full_command += '&par=' + param
         if str_param:
-            full_command += '&str =' + str_param
+            full_command += '&str=' + str_param
         if self.DEBUG:
             print('DEBUG: >>>', full_command)
         try:
